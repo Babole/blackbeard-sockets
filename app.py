@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_socketio import SocketIO, send, emit
+from os import environ
 
 app = Flask(__name__)
 
@@ -14,5 +15,5 @@ def connection():
     print('A new player just connected')
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5001))
+    port = int(environ.get("PORT", 5001))
     socketio.run(app, debug=False, port=port)
