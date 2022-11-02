@@ -60,9 +60,9 @@ def lobby(gameData):
     roomID = gameData["roomID"]
     emit('change state', gameData, to = roomID)
 
-# @socketio.on('move')
-# def lobby(position):
-#     print(position["x"])
+@socketio.on('move')
+def lobby(position):
+    print(position["x"])
 #     roomID = gameData["roomID"]
 #     emit('change state', gameData, to = roomID)
 
