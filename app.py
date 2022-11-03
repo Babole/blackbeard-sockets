@@ -18,6 +18,7 @@ def connection():
 
 @socketio.on('disconnect')
 def disconnect():
+    print('Player disconnected')
     socket_to_delete = None
     for i in range(len(socket_rooms)):
         if socket_rooms[i]['socket'] == str(request.sid):
@@ -68,18 +69,19 @@ def start(gameData):
 
 @socketio.on('move')
 def move(data):
-    print('moving')
     emit('move', data, to = data['roomID'], include_self=False)
 
 @socketio.on('moveEnd')
 def moveEnd(data):
-    print('stoped moving')
     emit('moveEnd', data, to = data['roomID'], include_self=False)
 
 @socketio.on('jump')
 def jump(data):
-    print('jumping')
     emit('jump', data, to = data['roomID'], include_self=False)
+
+@socketio.on('bomb explode')
+def bombExplode(data):
+    emit('bomb explode', data, to = data['roomID'])
 
 if __name__ == "__main__":
     port = int(environ.get("PORT", 5000))
