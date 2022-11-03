@@ -56,16 +56,30 @@ def joinRoom(joiningData):
     emit('user joining waiting room', joiningData, to = roomID, include_self=False)
 
 @socketio.on('send state to players')
-def lobby(gameData):
+def sendPlayers(gameData):
     roomID = gameData["roomID"]
     emit('change state', gameData, to = roomID)
 
-@socketio.on('move')
-def lobby(position):
-    print(position["x"])
-#     roomID = gameData["roomID"]
-#     emit('change state', gameData, to = roomID)
+@socketio.on('start game')
+def start(gameData):
+    roomID = gameData["roomID"]
+    gameData["gameStarted"] = True
+    emit('change state', gameData, to = roomID)
 
+@socketio.on('move')
+def move(data):
+    print('moving')
+    emit('move', data, to = data['roomID'], include_self=False)
+
+@socketio.on('moveEnd')
+def moveEnd(data):
+    print('stoped moving')
+    emit('moveEnd', data, to = data['roomID'], include_self=False)
+
+@socketio.on('jump')
+def jump(data):
+    print('jumping')
+    emit('jump', data, to = data['roomID'], include_self=False)
 
 if __name__ == "__main__":
     port = int(environ.get("PORT", 5000))
